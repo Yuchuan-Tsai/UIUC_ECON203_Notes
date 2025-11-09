@@ -623,10 +623,11 @@ This is because expected value is a weighted average of all possible values of t
 ### The Line of Best Fit
 #### Predicted Value of y
 Define the predicted value of y as $\hat y = \hat b_0 + \hat b_1x_i$ 
+$\hat y$ is the prediction for the specific data point$(x_i,y_i)$
+Two points $(x_1, y_1)$ and $(x_2, y_2)$ will have the same predicted value $\hat y_1$ and $\hat y_2$ if $x_1$ = $x_2$, but it is not necessarily true that $y_1 = y_2$
 
 #### Residuals 
-The prediction error for a value of y is defined as the difference between the actual value and the predicted value
-$y_i - \hat y_i$
+The prediction error for a value of y is defined as the difference between the actual value and the predicted value $y_i - \hat y_i$
 We will usually refer to this value as a **residual**
 
 We should focus on minimizing the squared residuals
@@ -636,6 +637,22 @@ Minimizing the mean squared error of the line of best fit
 $Q(b_0, b_1) = \frac{1}{n} \sum_{i=1}^{n} (y_i - b_0 - b_1x_i)^2$
 The $b_0$ and $b_1$ that minimize the function will be denoted $\hat b_0$ and $\hat b_1$ respectively 
 > This method can only be imposed for one sample of data
+
+#### Intercept of the Line of Best Fit
+the line of best fit has an intercept that is the mean of the dependent variable y minus the slope coefficient times the mean of the independent variable x
+$\hat b_0 = \bar y - \hat b_1 \bar x$
+
+#### Slope of the Line of Best Fit
+$\hat b_1 = \frac{\hat{Cov}(x,y)}{\hat{Var}(x)}$
+The slope of the line of best fit is the ratio of the sample covariance to the sample variance
+
+#### A Few Notes about the best fitting line
+The best fitting line will **always** contain the point($\bar x, \bar y$)
+The first order condition when we take the derivative with respect to $b_0$ results in the sum of residuals being 0
+
+#### Estimating the MSE
+Evaluate the MSE of the best fitting line:
+$\hat{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat y_i)^2$
 
 ## Lesson 14: Simple Linear Regression
 ### Linear Regression Model
@@ -651,30 +668,35 @@ We can assume that X predicts Y **linearly** and so as to represent $E(Y|X)$ by 
 This is the population regression line(model)
 
 Since the random variable Y cannot exactly follow this relationship, we have to add model Y with error
+
 $E(Y|X) = \beta_0 + \beta_1X + U$
-U is the error term which accounts for all other factors that could influence Y outside of X, we will assume $E(U|X) = 0$, because
-$E(Y|X) = E[E(Y|X)|X] + E(U|X)$
-$E(Y|X) = E(Y|X) + E(U|X$
-$E(Y|X) - E(Y|X) = E(U|X) = 0$
+> U is the error term which accounts for all other factors that could influence Y outside of X, we will assume $E(U|X) = 0$, because
+> $E(Y|X) = E[E(Y|X)|X] + E(U|X)$
+> 
+> = $E(Y|X) = E(Y|X) + E(U|X)$
+> 
+> = $E(Y|X) - E(Y|X) = E(U|X) = 0$
+
 Use the law of iterated expectations, we can find out that 
 $E(U) = E[E(U|X)] = E(0) = 0$
 #### Linear Regression Model
-$\beta_0$ and $\beta_1$ are **unknown** population parameters
-$\beta_0$ and $\beta_1$ are usually called the regression coefficients
+- $\beta_0$ and $\beta_1$ are **unknown** population parameters
+- $\beta_0$ and $\beta_1$ are usually called the regression coefficients
+
 $\beta_0$ is the expected value of Y when X = 0: E(Y|X=0)
 $\beta_1$ represents the changes in E(Y|X) 
-$\frac{\partial}{\partial X} E(Y|X) = \frac{\partial}{\partial X} (\beta_0 + \beta_1 X) = \beta_1$
+	$\frac{\partial}{\partial X} E(Y|X) = \frac{\partial}{\partial X} (\beta_0 + \beta_1 X) = \beta_1$
+
 E(Y|X) is the best predictor of X in that it minimizes the mean squared error for a prediction of Y
-$E(Y|X) = \arg \min_{f(X)} E\left([Y - f(X)]^2\right)$
+	$E(Y|X) = \arg \min_{f(X)} E\left([Y - f(X)]^2\right)$
 Therefore, since we have imposed linearity:
-$(\beta_0, \beta_1) = \arg \min_{b_0, b_1} E\left([Y - b_0 - b_1 X]^2\right)$
+	$(\beta_0, \beta_1) = \arg \min_{b_0, b_1} E\left([Y - b_0 - b_1 X]^2\right)$
 
-I can be shown that:
-
-$\beta_0 = E(Y) - \beta_1E(X)$
-$\beta1 = \frac{E([x-E(x)][Y - E(Y)])}{E([X-E(X)]^2)} = \frac{Cov(X,Y)}{Var(x)} = r_{XY}\frac{S_Y}{S_X}$
-$r_{XY}$: coefficient of x and y
-$S_Y$, $S_X$: standard deviation of Y and X
+It can be shown that:
+> $\beta_0 = E(Y) - \beta_1E(X)$
+> $\beta1 = \frac{E([x-E(x)][Y - E(Y)])}{E([X-E(X)]^2)} = \frac{Cov(X,Y)}{Var(x)} = r_{XY}\frac{S_Y}{S_X}$
+> $r_{XY}$: coefficient of x and y
+> $S_Y$, $S_X$: standard deviation of Y and X
 
 #### Correlation coefficient
 correlation coefficient r, is symmetric, which means that $r_{XY} = r_{YX}$
@@ -684,7 +706,7 @@ We can denote this sample as pairs of random variables ($X_i$, $Y_i$)
 that represent each individual in the sample
 For all pairs($X_i, Y_i$)
 1. $E(Y_i|X_i$) = $\beta_0$ + $\beta_1 X_i$
-2. Y_i = $\beta_0 + \beta_1X_i + U_i$
+2. $Y_i$ = $\beta_0 + \beta_1X_i + U_i$
 3. Cov($X_i, X_j$) = Cov($Y_i, Y_j$) = 0
 
 The coefficients that minimize the mean squared error are the same for the sample regression model as the population regression model
@@ -694,12 +716,15 @@ $\beta_1 = \frac{E([X_i - E(X_i)][Y_i - E(Y_i)])}{E([X_i - E(X_i)]^2)} = \frac{C
 ##### Estimation
 **Ordinary Least Squares** 
 
-Ordinary least squares is just minimizing the mean squared error assuming a linear relationship
 $(\hat\beta_0, \hat\beta_1) = \arg \min_{b_0, b_1} \frac{1}{n}\sum_{i=1}^n\left([Y_i - b_0 - b_1 X_i]^2\right)$
-
 Ordinary Least Squares is just minimizing the mean squared error assuming a linear relationship
 $\hat\beta_0 = \bar Y - \hat\beta_1 \bar X$                                         $\hat\beta_1 = \frac{\sum_{i=1}^n (X_i-\bar X)(Y_i - \bar Y)}{\sum_{i = 1}^n (X_i - \bar X)^2}$
 These are the OLS **estimators**
+
+Since $\hat \beta_0$ and $\hat \beta_1$ are functions of random variables, they are random variables themselves
+so
+$\hat b_0 = \bar y - \hat b_1 \bar x = E(Y|X = 0)$                                 $\hat b_1 = \frac{\sum_{i=1}^n (x_i-\bar x)(y_i - \bar y)}{\sum_{i = 1}^n (x_i - \bar x)^2}$
+These are the estimates, which are **numbers**
 
 #### Estimators vs. Estimates
 We want to conduct inference about the population
@@ -710,14 +735,14 @@ We quantify uncertainty by writing the **estimators** as random variables and th
 ### Differences between populations and Samples
 Every different data set will end up giving us a different regression line. 
 This does not necessarily mean that the samples come from different populations
-You should never get exactly the same regression line from two different sets of data unless the data is completely artificial
+We should never get exactly the same regression line from two different sets of data unless the data is completely artificial
 Thus: Different samples $\to$ different estimates!
 
 ### Assumption in the Linear Regression Model
 #### Assumptions
 We're already assuming that E(Y|X) is a linear function, and we still need 5 assumptions, although all of the 5 assumptions will not always be required
 
-#### Assumption 1
+#### OLS 1
 > **OLS1**: X and Y have finite second moments
 > E($X^2$) and E($Y^2$) and
 > $E(Y|X) = \beta_0 + \beta_1X$
@@ -727,7 +752,7 @@ Assumption OLS1 implies that our postulated model is correct:
 The conditional mean is linear
 If OLS1 is not valid, OLS estimation will recover the best linear approximation to E(Y|X)
 
-#### Assumption 2
+#### OLS 2
 > OLS 2: The realizations of $X_i$ and $Y_i$ are randomly sampled from the population
 This combined with OLS 1 allows us to write our models as:
 $Y_i = \beta_0 +\beta_1X_i + U_i$
@@ -736,7 +761,7 @@ OLS2 also implies that:
 1. The joint distribution of $X_i$ and $Y_i$ is the same for all subject i
 2. ($X_i, Y_i$) is independent of ($X_j, Y_j$) for all i $\neq$ j
 3. Each subject is sampled from the population with the same probability
-#### Assumption 3
+#### OLS 3
 - OLS 3: The sample outcomes of X cannot all be the same value
 $\hat \beta_1 = \frac{\sum_{i = 1}^n(X_i - \hat X)(Y_oi - \hat Y)}{\sum_{i = 1}^n(X_i - \hat X)^2}$
 **This becomes $\frac{0}{0}$ if there is no variability in X**
@@ -746,7 +771,8 @@ OLS1, 2, and 3 ensures that our OLS estimators are **unbiased**
 Thus, $E(\hat \beta_0) = \beta_0$ $E(\hat \beta_1) = \beta_1$
 However, **Unbiasedness does not mean precision**
 
-#### Assumption 4
+In order to estimate them precisely, we not only need to know the value of the estimates, but also the variances of the estimates:
+#### OLS 4
 OLS 4: The population model $Y = \beta_0 + \beta_1X + U$
 has conditions on U such that $U \textasciitilde (0, \sigma^2)$
 Note that $\sigma^2$ is a constant value
@@ -755,7 +781,7 @@ Errors are **heteroskedastic** if they depend on the value of $x_i$
 This means that the variance is $\sigma_i^2$ rather than $\sigma^2$, as the variance varies depending on i's value of $x_i$
 The standard errors of $\hat \beta_0$ and $\hat \beta_1$(and their realizations) are unreliable as a result
 
-#### Assumption 5
+#### OLS 5
 > OLS 5: The population model $Y = \beta_0 + \beta_1X + U$
 > has conditions on U such that $U \textasciitilde N(0, \sigma^2)$
 
@@ -770,28 +796,30 @@ $RSS = \sum_{i=1}^{n}(Y_i-\hat Y_i)^2$
 
 We could use the mean squared error as our estimate our variance. However, this will not be an unbiased estimator
 $MSE = \frac{1}{n}\sum_{i=1}^{n}(y_i-\hat y_i)^2$
+
 Sample variance estimator:
 $\frac{1}{n-1}\sum_{i=1}^{n}(X_i - \bar X)^2$
 
 We would use $\mu$ instead of $\bar X$ if we could, but we do not know the true population mean, so we have to estimate it
 
-We are estimating two population parameters in a simple linear regression model:
-$\beta_0$ and $\beta_1$
+We are estimating two population parameters in a simple linear regression model: $\beta_0$ and $\beta_1$
 
 An **unbiased estimator** for the variance of the regression model is:
 $\frac{1}{n-2}\sum_{i=1}^{n}(Y_i - \hat Y_i)^2$
 
-With the corresponding estimate replacing the random variables with the values observed through data and estimation, another way to represent the unbiased estimator for the variance of the regression model is:
-$\sigma^2 = \frac{RSS}{n-2}$
+With the corresponding estimate replacing the random variables with the values observed through data and estimation, another way to represent the unbiased estimator for the variance of the regression model is: $\sigma^2 = \frac{RSS}{n-2}$
+
+Minimizing the $RSS$ term is sufficient for determining which model is the best
 
 #### Test Statistic
 When we assume the data comes from a normal distribution, we can construct test statistics similar to how we constructed them for population means and proportions:
 $\frac{\hat \beta_i - \beta_i}{\hat {se}(\hat \beta_i)} = t_{stat}$
+
 #### The Central Limit Theorem(CLT)
 Let $Z_1, Z_2, ... , Z_n$ be a sample of n independent and identically distributed random variables with mean $\mu$ and variance $\sigma^2$. Both $\mu$ and $\sigma^2$ are finite numbers and $\sigma^2 > 0$. Therefore, as $n \to \infty$(the sample size tends to infinity), the random variable $\sqrt{n}\frac{\bar Z - \mu}{\sigma}$
 converges to a $N(0,1)$ random variable
 
-- Thus, so long as our sample size n is large, we can ignore OLS 5 when it comes to performing tests for regression **coefficients**
+- Thus, so long as our sample size n is large, we can ignore OLS 5 when it comes to performing tests for **regression coefficients**
 - At the same time, when n is large, we can say that the test statistic follows a standard normal distribution rather than a $t_{n-2}$ distribution
 - OLS 5 will still be needed for inferences about values of Y
 
@@ -808,10 +836,13 @@ On an exam, it is perfectly fine to specify the distribution of the test statist
 
 #### R Output -- Significance codes and F-Statistic
 The **significance codes** tell you a set of $\alpha$ levels that you will reject the null hypothesis $\beta_i = 0$ against $\beta_i \neq 0$ 
-more '*' means that the p-value is smaller, and we are more confidence to reject the null hypothesis
+more \* means that the p-value is smaller, and we are more confidence to reject the null hypothesis
 
 The F-Statistic is interpreted as testing the overall significance of the model, which means that do all of the independent variables jointly determine Y linearly? -- 用于解释模型，若很大则代表模型解释的变异远大于误差，也就是说模型整体显著(p-value小)，即x 与y 无线性关系，若很小则代表模型对y几乎没有解释力(p-value大), 即x与y之间存在显著线性关系
 The p-value for the F-statistic is the same as the p-value for the t-statistic of the independent variable, because we only have 1 independent variable in a simple linear regression model
+
+#### Important Note
+The output of p-value in the lm() function of the r code is default testing two-tailed test, so we need to divide it by two if we just want a p-value of one-tailed test.
 
 ### Confidence Intervals for Regression Coefficients
 The confidence interval formulas for our regression coefficients can be easily calculated from the test statistic formulas
@@ -833,7 +864,6 @@ We have two tools to do this: confidence intervals and predictions intervals
 **Confidence intervals** are used when we want to estimate the **average** value of Y for all X=x
 **Prediction intervals** are used when we want to estimate the value of $Y_i$ for **one** $X_i = x$ 
 Prediction intervals should be wider as there is more uncertainty about one observation than an average of all observations
-
 
 #### Confidence Intervals
 The most confident in our predictions should closer to the sample of average of $X_i$
@@ -879,15 +909,37 @@ $Y | X = N\left(\hat{Y}, \sigma^2 \left[1 + \frac{1}{n} + \frac{(X_i - \bar{X})^
 ## Lesson 18: Unites of Measurement and Function Form Changes
 
 ### Units of Measurement
-$\beta_0 = E(Y) - \beta_1E(X)$
-$\beta_1 = \frac{Cov(X,Y)}{Var(X)}$
+Linear regression model:
+$Y = E(Y|X) + U$
+$Y = \beta_0 + \beta_1X + U$
+- Y is the dependent variable
+- X is the independent variable
+- U is the error term
+
+$\beta_0 = E(Y|X = 0) = E(Y) - \beta_1E(X)$
+
+$\beta_1 = \frac{Cov(X,Y)}{Var(X)}$, which is the marginal change in $E(Y|X)$ given a marginal change in X
+
 If X is multiplied by a non-zero constant "a",
 $\beta_1 = \frac{Cov(X,Y)}{Var(X)} = \frac{E[(X-E(X))(Y-E(Y))]}{E[(X-E(X))^2]}$
+
 $\hat\beta_1 = \frac{Cov(aX,Y)}{Var(aX)} = \frac{E[(aX-E(aX))(Y-E(Y))]}{E[(aX-E(aX))^2]}$
+
 $\hat\beta_1 =  \frac{1}{a}\beta_1$
+
 Same analysis for bY as well
 $\hat\beta_1 = b\beta_1$
 $\hat \beta_0 = b\beta_0$
+
+#### Effect on the regression coefficient if we change the units of measurement of the variables
+1. 如果是Y的值乘以一个 constant, both $\hat\beta_1$ and $\hat\beta_0$ will times that constant
+2. 如果是一个X 的值乘以一个constant, 只有$\hat\beta_1$ 要**除以**这个constant, $\hat\beta_0$保持不变
+#### Effect of the regression output if we multiplied Y and/or X by some constant
+1. 如果是Y的值乘以一个 constant, both $\hat\beta_1$ and $\hat\beta_0$ will times that constant
+2. 如果是一个X 的值乘以一个constant, 只有 $\hat\beta_1$ 要**乘以**这个constant, $\hat\beta_0$ 保持不变
+#### Effect of adding a constant to X or Y
+1. Y + c $\to$ $\hat\beta_1$ does not change, $\hat\beta_0 + c$
+2. X + c $\to$ $\hat\beta_1$ does not change, $\hat\beta_0 - \hat\beta_1\times c$
 
 ### Nonlinearities
 OLS1 assumed that $E[Y|X]$ is a linear function of X
@@ -909,9 +961,9 @@ Thus, $E(Y|Z) = \beta_0 + \beta_1Z$ is actually a valid linear regression model
 
 Economists generally use the log() of variables to run regression
 	$log(Y) = \beta_0 + \beta_1log(X) + U$
-Everywhere we see a log, instead of thinking about Y or X directly, think about the percentage change in Y or X
+Everywhere we see a log, instead of thinking about Y or X directly, think about the **percentage change** in Y or X
 
-It turns out that using logs in linear regression models result in coefficients that can be approximated as percentage changes
+It turns out that using logs in linear regression models result in coefficients that can be **approximated** as percentage changes
 
 ![[Screenshot 2025-11-04 at 13.34.35.png]]
 ## Lesson 19: Goodness of Fit and Model Selection
@@ -950,7 +1002,7 @@ A slope of zero would mean that X explains nothing about Y -- worst case
 Thus the **estimator from the regression model** is the **sample average of Y**
 
 `Total Sum of Squares(TSS)`
-If $\bar Y$ is out estimator, then the total variation in Y can be described by
+If $\bar Y$ is our estimator, then the total variation in Y can be described by
 $TSS = \sum_{i = 1}^{n}(Y_i - \bar Y)^2$ 
 
 `Total amount of error in the linear regression model:`
@@ -974,7 +1026,7 @@ $\to$ As long as the MSEs for the estimators are calculated with the same denomi
 	$R^2 = \frac{ESS}{TSS}$
 
 Worst estimator $\to \bar Y$
-If $RSS = TSS(\hat Y_i = \bar Y \forall i$ then $R^2$ is 0, X adds nothing to the prediction of Y
+If $RSS = TSS(\hat Y_i = \bar Y \forall i)$ then $R^2$ is 0, X adds nothing to the prediction of Y
 
 Best possible estimator $\to \hat Y_i = Y_i \forall i$
 $RSS = \sum_{i = 1}^{n} (Y_i - \hat Y_i)^2 = \sum_{i = 1}^{n} (Y_i -  Y_i)^2 = 0$
